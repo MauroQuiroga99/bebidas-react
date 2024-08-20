@@ -1,5 +1,9 @@
 const IndexPage = () => {
-  return <div></div>;
+  return (
+    <>
+      <h1>Inicio</h1>
+    </>
+  );
 };
 
 export default IndexPage;
