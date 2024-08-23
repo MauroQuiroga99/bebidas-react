@@ -1,13 +1,18 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import useDrink from "../hooks/useDrink";
+import useForm from "../hooks/useForm";
 
 const Header = () => {
+  const { callCategories, categories } = useDrink();
+  const { handleChange, handleSubmit, ingredients } = useForm();
+
   const { pathname } = useLocation();
-
-  console.log(pathname);
-
   const isHome = useMemo(() => pathname === "/", [pathname]);
-  console.log(isHome);
+
+  useEffect(() => {
+    callCategories();
+  }, []);
 
   return (
     <header
@@ -46,7 +51,10 @@ const Header = () => {
           </nav>
         </div>
         {isHome && (
-          <form className=" md:w-1/2 2xl:w-1/3 bg-orange-400 my-32 p-10 rounded-lg shadow space-y-6">
+          <form
+            className=" md:w-1/2 2xl:w-1/3 bg-orange-400 my-32 p-10 rounded-lg shadow space-y-6"
+            onSubmit={handleSubmit}
+          >
             <div className="space-y-4">
               <label
                 className="block text-white uppercase font-extrabold text-lg "
@@ -60,6 +68,8 @@ const Header = () => {
                 name="ingredient"
                 type="text"
                 placeholder="Nombre o Ingrediente. Ej. Vodka, Tequila, Café"
+                onChange={handleChange}
+                value={ingredients.ingredient}
               />
             </div>
             <div className="space-y-4">
@@ -72,9 +82,19 @@ const Header = () => {
               <select
                 id="category"
                 className="p-3 w-full rounded-lg focus:outline-none"
-                name="ingredient"
+                name="category"
+                onChange={handleChange}
+                value={ingredients.category}
               >
-                <option value="">--Seleccione--</option>
+                <option className="bg-slate-200 p-2 rounded-md" value="">
+                  --Seleccione--
+                </option>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {" "}
+                    {category}{" "}
+                  </option>
+                ))}
               </select>
             </div>
 
