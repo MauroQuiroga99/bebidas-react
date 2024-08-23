@@ -1,13 +1,28 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategories } from "../store/selectors/categories";
+import { setCategories } from "../store/slices/recipeSlice";
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const categories = useSelector(getCategories);
   const { pathname } = useLocation();
-
-  console.log(pathname);
-
   const isHome = useMemo(() => pathname === "/", [pathname]);
-  console.log(isHome);
+
+  useEffect(() => {
+    callCategories();
+  }, []);
+
+  async function callCategories() {
+    const url = "https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list";
+    const { data } = await axios(url);
+    const result = data.drinks.map((item: any) => item.strCategory);
+    console.log(result);
+    console.log(data);
+    dispatch(setCategories(result));
+  }
 
   return (
     <header
@@ -74,7 +89,15 @@ const Header = () => {
                 className="p-3 w-full rounded-lg focus:outline-none"
                 name="ingredient"
               >
-                <option value="">--Seleccione--</option>
+                <option className="bg-slate-200 p-2 rounded-md" value="">
+                  --Seleccione--
+                </option>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {" "}
+                    {category}{" "}
+                  </option>
+                ))}
               </select>
             </div>
 
