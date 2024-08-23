@@ -1,54 +1,22 @@
-import { ChangeEvent, FormEvent, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { getCategories, getIngredients } from "../store/selectors/categories";
 import useDrink from "../hooks/useDrink";
-import { setIngredients } from "../store/slices/recipeSlice";
-import { formDrink } from "../types";
-import axios from "axios";
+import useForm from "../hooks/useForm";
 
 const Header = () => {
-  const dispatch = useDispatch();
   const categories = useSelector(getCategories);
   const ingredients = useSelector(getIngredients);
   const { callCategories } = useDrink();
+  const { handleChange, handleSubmit } = useForm();
+
   const { pathname } = useLocation();
   const isHome = useMemo(() => pathname === "/", [pathname]);
 
   useEffect(() => {
     callCategories();
   }, []);
-
-  async function callDataApi(categories: formDrink) {
-    const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categories.category}&i=${categories.ingredient}`;
-    const { data } = await axios(url);
-    console.log(data);
-    console.log(url);
-  }
-
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    dispatch(
-      setIngredients({
-        ...ingredients,
-        [name]: value,
-      })
-    );
-  };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    //Validar
-    if (Object.values(ingredients).includes("")) {
-      console.log("Todos los campos son obligatorios");
-      return;
-    }
-    callDataApi(ingredients);
-
-    //consultar las recetas
-  };
 
   return (
     <header

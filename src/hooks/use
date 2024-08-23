@@ -1,8 +1,0 @@
-export default function useEvents() {
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
-  ) => {};
-  return {
-    handleChange,
-  };
-}
