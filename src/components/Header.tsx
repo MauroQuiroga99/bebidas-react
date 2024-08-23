@@ -1,15 +1,11 @@
 import { useEffect, useMemo } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { getCategories, getIngredients } from "../store/selectors/categories";
 import useDrink from "../hooks/useDrink";
 import useForm from "../hooks/useForm";
 
 const Header = () => {
-  const categories = useSelector(getCategories);
-  const ingredients = useSelector(getIngredients);
-  const { callCategories } = useDrink();
-  const { handleChange, handleSubmit } = useForm();
+  const { callCategories, categories } = useDrink();
+  const { handleChange, handleSubmit, ingredients } = useForm();
 
   const { pathname } = useLocation();
   const isHome = useMemo(() => pathname === "/", [pathname]);

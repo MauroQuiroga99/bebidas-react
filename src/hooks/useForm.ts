@@ -31,9 +31,9 @@ export default function useForm() {
     callDataApi(ingredients);
   };
 
-  //consultar las recetas
   return {
     handleChange,
     handleSubmit,
+    ingredients,
   };
 }

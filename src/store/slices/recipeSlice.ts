@@ -9,7 +9,10 @@ type RecipeState = {
 
 const initialState: RecipeState = {
   categories: [],
-  ingredients: {} as FormDrink,
+  ingredients: {
+    category: "",
+    ingredient: "",
+  },
   drinks: [],
 };
 
