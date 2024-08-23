@@ -1,28 +1,33 @@
-import { useEffect, useMemo } from "react";
+import { ChangeEvent, useEffect, useMemo } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { getCategories } from "../store/selectors/categories";
-import { setCategories } from "../store/slices/recipeSlice";
+import { getCategories, getIngredients } from "../store/selectors/categories";
+import useDrink from "../hooks/useDrink";
+import { setIngredients } from "../store/slices/recipeSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
   const categories = useSelector(getCategories);
+  const ingredients = useSelector(getIngredients);
+  const { callCategories } = useDrink();
   const { pathname } = useLocation();
   const isHome = useMemo(() => pathname === "/", [pathname]);
 
   useEffect(() => {
     callCategories();
-  }, []);
+  }, [callCategories]);
 
-  async function callCategories() {
-    const url = "https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list";
-    const { data } = await axios(url);
-    const result = data.drinks.map((item: any) => item.strCategory);
-    console.log(result);
-    console.log(data);
-    dispatch(setCategories(result));
-  }
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    dispatch(
+      setIngredients({
+        ...ingredients,
+        [name]: value,
+      })
+    );
+  };
 
   return (
     <header
@@ -75,6 +80,8 @@ const Header = () => {
                 name="ingredient"
                 type="text"
                 placeholder="Nombre o Ingrediente. Ej. Vodka, Tequila, Café"
+                onChange={handleChange}
+                value={ingredients.ingredient}
               />
             </div>
             <div className="space-y-4">
@@ -87,7 +94,9 @@ const Header = () => {
               <select
                 id="category"
                 className="p-3 w-full rounded-lg focus:outline-none"
-                name="ingredient"
+                name="category"
+                onChange={handleChange}
+                value={ingredients.category}
               >
                 <option className="bg-slate-200 p-2 rounded-md" value="">
                   --Seleccione--
