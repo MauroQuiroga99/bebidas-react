@@ -20,6 +20,7 @@ export default function useDrink() {
     const { data } = await axios(url);
     const result = data.drinks.map((item: ResponseDrink) => item);
     dispatch(setDrinks(result));
+    console.log(url);
   }
 
   return {
