@@ -5,6 +5,7 @@ type RecipeState = {
   categories: string[];
   ingredients: FormDrink;
   drinks: ResponseDrink[];
+  recipes: string;
 };
 
 const initialState: RecipeState = {
@@ -14,6 +15,7 @@ const initialState: RecipeState = {
     ingredient: "",
   },
   drinks: [],
+  recipes: "",
 };
 
 const drinkSlice = createSlice({
@@ -28,6 +30,10 @@ const drinkSlice = createSlice({
     },
     setDrinks: (state, action) => {
       state.drinks = action.payload;
+    },
+    setRecipes: (state, action) => {
+      state.recipes = action.payload;
+      console.log("desde setRecipies");
     },
   },
 });
