@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { FormDrink } from "../../types";
+import { FormDrink, ResponseDrink } from "../../types";
 
 type RecipeState = {
   categories: string[];
   ingredients: FormDrink;
-  drinks: string[];
+  drinks: ResponseDrink[];
 };
 
 const initialState: RecipeState = {
