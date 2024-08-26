@@ -2,7 +2,7 @@ import axios from "axios";
 import { RecipeAPIResponse, ResponseDrink } from "../types";
 import { useDispatch, useSelector } from "react-redux";
 import { getRecipes } from "../store/selectors/categories";
-import { setRecipes } from "../store/slices/recipeSlice";
+import { openModal, setRecipes } from "../store/slices/recipeSlice";
 
 type DrinkCardProps = {
   drink: ResponseDrink;
@@ -15,6 +15,7 @@ const DrinkCard = ({ drink }: DrinkCardProps) => {
   const handleClick = (id: string) => {
     console.log("desdenhandleClick", id);
     callRecipesApi(id);
+    dispatch(openModal());
   };
 
   async function callRecipesApi(id: string) {
@@ -46,7 +47,6 @@ const DrinkCard = ({ drink }: DrinkCardProps) => {
         >
           {" "}
           Ver Receta
-          {recipes?.strMeasure2}
         </button>
       </div>
     </div>

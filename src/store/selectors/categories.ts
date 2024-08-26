@@ -15,3 +15,7 @@ export const getDrinks = (state: RootState) => {
 export const getRecipes = (state: RootState) => {
   return state.recipe.recipes;
 };
+
+export const getModalState = (state: RootState) => {
+  return state.recipe.modal;
+};

@@ -6,6 +6,7 @@ type RecipeState = {
   ingredients: FormDrink;
   drinks: ResponseDrink[];
   recipes: RecipeAPIResponse | null;
+  modal: boolean;
 };
 
 const initialState: RecipeState = {
@@ -16,6 +17,7 @@ const initialState: RecipeState = {
   },
   drinks: [],
   recipes: null,
+  modal: false,
 };
 
 const drinkSlice = createSlice({
@@ -34,9 +36,21 @@ const drinkSlice = createSlice({
     setRecipes: (state, action) => {
       state.recipes = action.payload;
     },
+    openModal: (state) => {
+      state.modal = true;
+    },
+    closeModal: (state) => {
+      state.modal = false;
+    },
   },
 });
 
-export const { setCategories, setIngredients, setDrinks, setRecipes } =
-  drinkSlice.actions;
+export const {
+  setCategories,
+  setIngredients,
+  setDrinks,
+  setRecipes,
+  openModal,
+  closeModal,
+} = drinkSlice.actions;
 export default drinkSlice.reducer;
