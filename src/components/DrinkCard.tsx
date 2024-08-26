@@ -27,6 +27,7 @@ const DrinkCard = ({ drink }: DrinkCardProps) => {
     console.log(result);
 
     dispatch(setRecipes(result));
+    console.log(recipes);
   }
 
   return (
