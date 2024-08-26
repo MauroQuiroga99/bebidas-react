@@ -11,3 +11,7 @@ export const getIngredients = (state: RootState) => {
 export const getDrinks = (state: RootState) => {
   return state.recipe.drinks;
 };
+
+export const getRecipes = (state: RootState) => {
+  return state.recipe.recipes;
+};

@@ -1,12 +1,33 @@
-import { ResponseDrink } from "../types";
+import axios from "axios";
+import { RecipeAPIResponse, ResponseDrink } from "../types";
+import { useDispatch, useSelector } from "react-redux";
+import { getRecipes } from "../store/selectors/categories";
+import { setRecipes } from "../store/slices/recipeSlice";
+
 type DrinkCardProps = {
   drink: ResponseDrink;
 };
 
 const DrinkCard = ({ drink }: DrinkCardProps) => {
+  const dispatch = useDispatch();
+  const recipes = useSelector(getRecipes);
+
   const handleClick = (id: string) => {
     console.log("desdenhandleClick", id);
+    callRecipesApi(id);
   };
+
+  async function callRecipesApi(id: string) {
+    const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
+    const { data } = await axios(url);
+    console.log(data);
+    console.log(url);
+    const result: RecipeAPIResponse = data.drinks[0];
+    console.log(result);
+
+    dispatch(setRecipes(result));
+  }
+
   return (
     <div className="border shadow-lg">
       <div className=" overflow-hidden">
@@ -25,6 +46,7 @@ const DrinkCard = ({ drink }: DrinkCardProps) => {
         >
           {" "}
           Ver Receta
+          {recipes?.strMeasure2}
         </button>
       </div>
     </div>

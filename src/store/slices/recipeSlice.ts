@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { FormDrink, ResponseDrink } from "../../types";
+import { FormDrink, RecipeAPIResponse, ResponseDrink } from "../../types";
 
 type RecipeState = {
   categories: string[];
   ingredients: FormDrink;
   drinks: ResponseDrink[];
-  recipes: string;
+  recipes: RecipeAPIResponse | null;
 };
 
 const initialState: RecipeState = {
@@ -15,7 +15,7 @@ const initialState: RecipeState = {
     ingredient: "",
   },
   drinks: [],
-  recipes: "",
+  recipes: null,
 };
 
 const drinkSlice = createSlice({
@@ -33,10 +33,10 @@ const drinkSlice = createSlice({
     },
     setRecipes: (state, action) => {
       state.recipes = action.payload;
-      console.log("desde setRecipies");
     },
   },
 });
 
-export const { setCategories, setIngredients, setDrinks } = drinkSlice.actions;
+export const { setCategories, setIngredients, setDrinks, setRecipes } =
+  drinkSlice.actions;
 export default drinkSlice.reducer;
