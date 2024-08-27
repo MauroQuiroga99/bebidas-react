@@ -8,7 +8,6 @@ import {
 } from "../store/selectors/categories";
 import { closeModal, setFavorites } from "../store/slices/recipeSlice";
 import { RecipeAPIResponse } from "../types";
-import FavoritePage from "../views/FavoritePage";
 
 export default function Modal() {
   const dispatch = useDispatch();
