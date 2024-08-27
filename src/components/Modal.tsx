@@ -46,6 +46,10 @@ export default function Modal() {
     }
   };
 
+  const favoriteExist = (idDrink: string | undefined): boolean => {
+    return favoritos.some((fav) => fav.idDrink === idDrink);
+  };
+
   return (
     <>
       <Transition appear show={modal} as={Fragment}>
@@ -122,8 +126,9 @@ export default function Modal() {
                         }
                       }}
                     >
-                      {" "}
-                      Agregar a Favoritos{" "}
+                      {favoriteExist(recipes?.idDrink)
+                        ? "Eliminar de Favoritos"
+                        : "Agregar a Favoritos"}
                     </button>
                   </div>
                 </Dialog.Panel>
