@@ -7,6 +7,7 @@ type RecipeState = {
   drinks: ResponseDrink[];
   recipes: RecipeAPIResponse | null;
   modal: boolean;
+  favorites: RecipeAPIResponse[];
 };
 
 const initialState: RecipeState = {
@@ -18,6 +19,7 @@ const initialState: RecipeState = {
   drinks: [],
   recipes: null,
   modal: false,
+  favorites: [],
 };
 
 const drinkSlice = createSlice({
@@ -42,6 +44,9 @@ const drinkSlice = createSlice({
     closeModal: (state) => {
       state.modal = false;
     },
+    setFavorites: (state, action) => {
+      state.favorites = action.payload;
+    },
   },
 });
 
@@ -52,5 +57,6 @@ export const {
   setRecipes,
   openModal,
   closeModal,
+  setFavorites,
 } = drinkSlice.actions;
 export default drinkSlice.reducer;

@@ -86,7 +86,11 @@ const Header = () => {
                 onChange={handleChange}
                 value={ingredients.category}
               >
-                <option className="bg-slate-200 p-2 rounded-md" value="">
+                <option
+                  className="bg-slate-200 p-2 rounded-md"
+                  value=""
+                  label="Seleccione"
+                >
                   --Seleccione--
                 </option>
                 {categories.map((category) => (

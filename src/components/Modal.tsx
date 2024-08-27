@@ -1,22 +1,29 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getModalState, getRecipes } from "../store/selectors/categories";
-import { closeModal } from "../store/slices/recipeSlice";
+import {
+  getFavorites,
+  getModalState,
+  getRecipes,
+} from "../store/selectors/categories";
+import { closeModal, setFavorites } from "../store/slices/recipeSlice";
 import { RecipeAPIResponse } from "../types";
+import FavoritePage from "../views/FavoritePage";
 
 export default function Modal() {
   const dispatch = useDispatch();
   const modal = useSelector(getModalState);
-  const recipe = useSelector(getRecipes);
+  const recipes = useSelector(getRecipes);
+  const favoritos = useSelector(getFavorites);
 
   const renderIngredients = () => {
-    if (!recipe) return null; // Verifica si recipe es null
+    if (!recipes) return null; // Verifica si recipe es null
 
     const ingredients: JSX.Element[] = [];
     for (let i = 1; i <= 6; i++) {
-      const ingredient = recipe[`strIngredient${i}` as keyof RecipeAPIResponse];
-      const measure = recipe[`strMeasure${i}` as keyof RecipeAPIResponse];
+      const ingredient =
+        recipes[`strIngredient${i}` as keyof RecipeAPIResponse];
+      const measure = recipes[`strMeasure${i}` as keyof RecipeAPIResponse];
 
       if (ingredient || measure) {
         ingredients.push(
@@ -27,6 +34,17 @@ export default function Modal() {
       }
     }
     return <>{ingredients}</>;
+  };
+
+  const handleClickFavorite = (recipes: RecipeAPIResponse) => {
+    if (favoritos.some((fav) => fav.idDrink === recipes.idDrink)) {
+      dispatch(
+        setFavorites(favoritos.filter((fav) => fav.idDrink !== recipes.idDrink))
+      );
+    } else {
+      console.log("no existe");
+      dispatch(setFavorites([...favoritos, recipes]));
+    }
   };
 
   return (
@@ -65,11 +83,11 @@ export default function Modal() {
                     as="h3"
                     className="text-gray-900 text-4xl font-extrabold my-5 text-center"
                   >
-                    {recipe?.strDrink}
+                    {recipes?.strDrink}
                   </Dialog.Title>
                   <img
-                    src={recipe?.strDrinkThumb}
-                    alt={`imagen de ${recipe?.strDrink}`}
+                    src={recipes?.strDrinkThumb}
+                    alt={`imagen de ${recipes?.strDrink}`}
                     className="mx-auto w-96"
                   />
 
@@ -86,7 +104,29 @@ export default function Modal() {
                   >
                     Instrucciones
                   </Dialog.Title>
-                  <p className="text-lg"> {recipe?.strInstructions} </p>
+                  <p className="text-lg"> {recipes?.strInstructions} </p>
+                  <div className="mt-5 flex justify-between gap-4">
+                    <button
+                      type="button"
+                      className="w-full rounded bg-gray-600 p-3 font-bold uppercase text-white shadow hover:bg-gray-500"
+                      onClick={() => dispatch(closeModal())}
+                    >
+                      {" "}
+                      Cerrar{" "}
+                    </button>
+                    <button
+                      type="button"
+                      className="w-full rounded bg-gray-600 p-3 font-bold uppercase text-white shadow hover:bg-gray-500"
+                      onClick={() => {
+                        if (recipes) {
+                          handleClickFavorite(recipes);
+                        }
+                      }}
+                    >
+                      {" "}
+                      Agregar a Favoritos{" "}
+                    </button>
+                  </div>
                 </Dialog.Panel>
               </Transition.Child>
             </div>

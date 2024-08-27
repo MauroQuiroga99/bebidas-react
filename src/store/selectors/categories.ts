@@ -19,3 +19,6 @@ export const getRecipes = (state: RootState) => {
 export const getModalState = (state: RootState) => {
   return state.recipe.modal;
 };
+export const getFavorites = (state: RootState) => {
+  return state.recipe.favorites;
+};
