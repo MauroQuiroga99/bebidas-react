@@ -123,6 +123,7 @@ export default function Modal() {
                       onClick={() => {
                         if (recipes) {
                           handleClickFavorite(recipes);
+                          dispatch(closeModal());
                         }
                       }}
                     >
