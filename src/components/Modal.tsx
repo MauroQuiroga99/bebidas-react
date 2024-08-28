@@ -6,7 +6,11 @@ import {
   getModalState,
   getRecipes,
 } from "../store/selectors/categories";
-import { closeModal, setFavorites } from "../store/slices/recipeSlice";
+import {
+  closeModal,
+  setFavorites,
+  setNotification,
+} from "../store/slices/recipeSlice";
 import { RecipeAPIResponse } from "../types";
 
 export default function Modal() {
@@ -16,7 +20,7 @@ export default function Modal() {
   const favoritos = useSelector(getFavorites);
 
   const renderIngredients = () => {
-    if (!recipes) return null; // Verifica si recipe es null
+    if (!recipes) return null;
 
     const ingredients: JSX.Element[] = [];
     for (let i = 1; i <= 6; i++) {
@@ -40,10 +44,23 @@ export default function Modal() {
       dispatch(
         setFavorites(favoritos.filter((fav) => fav.idDrink !== recipes.idDrink))
       );
+      dispatch(
+        setNotification({
+          text: `${recipes.strDrink} eliminado de favoritos`,
+          error: false,
+        })
+      );
     } else {
       console.log("no existe");
       dispatch(setFavorites([...favoritos, recipes]));
+      dispatch(
+        setNotification({
+          text: `${recipes.strDrink} agregado a favoritos`,
+          error: false,
+        })
+      );
     }
+    dispatch(closeModal());
   };
 
   const favoriteExist = (idDrink: string | undefined): boolean => {

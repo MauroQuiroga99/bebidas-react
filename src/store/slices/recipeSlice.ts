@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { FormDrink, RecipeAPIResponse, ResponseDrink } from "../../types";
+import {
+  FormDrink,
+  Notification,
+  RecipeAPIResponse,
+  ResponseDrink,
+} from "../../types";
 
 type RecipeState = {
   categories: string[];
@@ -8,6 +13,7 @@ type RecipeState = {
   recipes: RecipeAPIResponse | null;
   modal: boolean;
   favorites: RecipeAPIResponse[];
+  notification: Notification;
 };
 
 const initialState: RecipeState = {
@@ -20,6 +26,11 @@ const initialState: RecipeState = {
   recipes: null,
   modal: false,
   favorites: [],
+  notification: {
+    text: "",
+    error: false,
+    show: false,
+  },
 };
 
 const drinkSlice = createSlice({
@@ -46,6 +57,22 @@ const drinkSlice = createSlice({
     },
     setFavorites: (state, action) => {
       state.favorites = action.payload;
+      localStorage.setItem("fav", JSON.stringify(action.payload));
+    },
+    setNotification: (state, action) => {
+      state.notification = {
+        text: action.payload.text,
+        error: action.payload.error,
+        show: true,
+      };
+    },
+
+    clearNotification: (state) => {
+      state.notification = {
+        text: "",
+        error: false,
+        show: false,
+      };
     },
   },
 });
@@ -58,5 +85,7 @@ export const {
   openModal,
   closeModal,
   setFavorites,
+  setNotification,
+  clearNotification,
 } = drinkSlice.actions;
 export default drinkSlice.reducer;
