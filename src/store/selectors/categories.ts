@@ -22,3 +22,5 @@ export const getModalState = (state: RootState) => {
 export const getFavorites = (state: RootState) => {
   return state.recipe.favorites;
 };
+
+export const getNotification = (state: RootState) => state.recipe.notification;

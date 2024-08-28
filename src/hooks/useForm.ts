@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../store/selectors/categories";
 import useDrink from "./useDrink";
-import { setIngredients } from "../store/slices/recipeSlice";
+import { setIngredients, setNotification } from "../store/slices/recipeSlice";
 import { ChangeEvent, FormEvent } from "react";
 
 export default function useForm() {
@@ -25,7 +25,12 @@ export default function useForm() {
     e.preventDefault();
     // Validar
     if (Object.values(ingredients).includes("")) {
-      console.log("Todos los campos son obligatorios");
+      dispatch(
+        setNotification({
+          text: "Todos los campos son obligatorios",
+          error: true, // Muestra el ícono de error
+        })
+      );
       return;
     }
     callDataApi(ingredients);

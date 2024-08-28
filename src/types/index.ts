@@ -35,3 +35,9 @@ export type RecipeAPIResponse = {
 export type RecipeAPIData = {
   drinks: RecipeAPIResponse[];
 };
+
+export type Notification = {
+  text: string;
+  error: boolean;
+  show: boolean;
+};
