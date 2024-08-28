@@ -19,8 +19,8 @@ export default function useDrink() {
     const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categories.category}&i=${categories.ingredient}`;
     const { data } = await axios(url);
     const result = data.drinks.map((item: ResponseDrink) => item);
-    console.log(data);
     dispatch(setDrinks(result));
+    console.log(url);
   }
 
   return {

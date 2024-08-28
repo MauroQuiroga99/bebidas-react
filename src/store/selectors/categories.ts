@@ -11,3 +11,14 @@ export const getIngredients = (state: RootState) => {
 export const getDrinks = (state: RootState) => {
   return state.recipe.drinks;
 };
+
+export const getRecipes = (state: RootState) => {
+  return state.recipe.recipes;
+};
+
+export const getModalState = (state: RootState) => {
+  return state.recipe.modal;
+};
+export const getFavorites = (state: RootState) => {
+  return state.recipe.favorites;
+};
