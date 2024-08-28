@@ -4,10 +4,11 @@ import { XMarkIcon } from "@heroicons/react/20/solid";
 import { Transition } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearNotification } from "../store/slices/recipeSlice";
+import { getNotification } from "../store/selectors/categories";
 
 export default function Notification() {
   const dispatch = useDispatch();
-  const notification = useSelector((state: any) => state.recipe.notification);
+  const notification = useSelector(getNotification);
 
   useEffect(() => {
     if (notification.show) {
